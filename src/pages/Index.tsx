@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChevronDown, ChevronLeft, Check, Bone } from "lucide-react";
+import { ChevronDown, ChevronLeft, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -76,7 +76,7 @@ const Index = () => {
         {screen === 2 && <QuestionScreen label="ABOUT YOUR DAY" title="Tell us about your day" items={questions[2]} answers={answers} onChoose={chooseAnswer} onNext={() => setScreen(3)} canContinue={canContinue} cta="Next" />}
         {screen === 3 && <QuestionScreen label="YOUR HABITS" title="Your daily habits" items={questions[3]} answers={answers} onChoose={chooseAnswer} onNext={() => setScreen(4)} canContinue={canContinue} cta="See my result" />}
         {screen === 4 && <Result flags={flags} onNext={() => setScreen(5)} />}
-        {screen === 5 && <Swaps flags={flags} expanded={expanded} setExpanded={setExpanded} />}
+        {screen === 5 && <Swaps flags={flags} expanded={expanded} setExpanded={setExpanded} onComplete={() => setScreen(2)} />}
       </section>
     </main>
   );
@@ -92,9 +92,6 @@ const Progress = ({ value }: { value: number }) => (
 
 const Welcome = ({ onNext }: { onNext: () => void }) => (
   <>
-    <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-[18px] bg-activity-panel">
-      <Bone className="h-8 w-8 text-activity-ink" />
-    </div>
     <p className="mb-3 text-[11px] font-medium uppercase leading-none tracking-[0.08em] text-activity-faint">Orthopedician</p>
     <h1 className="mb-5 text-[32px] font-medium leading-[1.2] text-activity-ink">Joint care &amp; protection</h1>
     <div className="mb-12 space-y-4 text-[15px] leading-[1.7] text-activity-body">
@@ -149,9 +146,8 @@ const Result = ({ flags, onNext }: { flags: ReturnType<typeof useRiskFlags>; onN
   );
 };
 
-const Swaps = ({ flags, expanded, setExpanded }: { flags: ReturnType<typeof useRiskFlags>; expanded: boolean; setExpanded: (value: boolean) => void }) => (
+const Swaps = ({ flags, expanded, setExpanded, onComplete }: { flags: ReturnType<typeof useRiskFlags>; expanded: boolean; setExpanded: (value: boolean) => void; onComplete: () => void }) => (
   <>
-    <Progress value={5} />
     <p className="mb-3 text-[11px] font-medium uppercase leading-none tracking-[0.08em] text-activity-faint">Start here</p>
     <h2 className="mb-6 text-[26px] font-medium leading-[1.3] text-activity-ink">Protect your joints daily</h2>
     <div className="mb-5">{swapItems(flags).map((item) => <SwapItem key={item} text={item} />)}</div>
@@ -165,7 +161,7 @@ const Swaps = ({ flags, expanded, setExpanded }: { flags: ReturnType<typeof useR
         {facts.map((fact) => <p key={fact} className="mb-2 border-l-2 border-activity-muted pl-[10px] text-xs leading-[1.55] text-activity-body last:mb-0">{fact}</p>)}
       </div>
     )}
-    <Button variant="complete" size="activity" className="mt-8">Complete exercise</Button>
+    <Button variant="complete" size="activity" className="mt-8" onClick={onComplete}>Complete exercise</Button>
   </>
 );
 
