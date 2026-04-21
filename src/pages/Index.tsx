@@ -64,7 +64,7 @@ const Index = () => {
   return (
     <main className="min-h-screen bg-activity-page">
       <section className="activity-enter mx-auto w-full max-w-[390px] px-7 pb-9 pt-12">
-        {screen !== 5 && (
+        {screen === 1 && (
           <Button aria-label={screen === 1 ? "Exit activity" : "Previous screen"} variant="activityBack" size="activityBack" className="mb-12" onClick={back}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -76,7 +76,7 @@ const Index = () => {
         {screen === 2 && <QuestionScreen label="ABOUT YOUR DAY" title="Tell us about your day" items={questions[2]} answers={answers} onChoose={chooseAnswer} onNext={() => setScreen(3)} canContinue={canContinue} cta="Next" />}
         {screen === 3 && <QuestionScreen label="YOUR HABITS" title="Your daily habits" items={questions[3]} answers={answers} onChoose={chooseAnswer} onNext={() => setScreen(4)} canContinue={canContinue} cta="See my result" />}
         {screen === 4 && <Result flags={flags} onNext={() => setScreen(5)} />}
-        {screen === 5 && <Swaps flags={flags} expanded={expanded} setExpanded={setExpanded} onComplete={() => setScreen(2)} />}
+        {screen === 5 && <Swaps flags={flags} expanded={expanded} setExpanded={setExpanded} onComplete={() => setScreen(1)} />}
       </section>
     </main>
   );
